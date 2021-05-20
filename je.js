@@ -67,6 +67,7 @@ var totals_label = [document.getElementById("total-debit"),document.getElementBy
                 if(aminp.className=="debit-input") aminp.className = "credit-input";
                 else aminp.className="debit-input";
                 e.preventDefault();
+                CalculateTotals();
             }else if(isNaN(e.key) && e.key!="Backspace") e.preventDefault();
         }
         aminp.type = "number";

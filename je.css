@@ -1,4 +1,13 @@
 
+/* HIDE the arrow keys in number input field*/
+    input::-webkit-outer-spin-button,input::-webkit-inner-spin-button { /*Chrome, safari, opera, edge, etc*/
+    -webkit-appearance: none;
+    margin: 0;
+    }
+    input[type=number] { /*firefox*/
+    -moz-appearance: textfield;
+    }
+
 body{
     margin:0;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
@@ -7,26 +16,23 @@ body{
 }
 h1{
     padding:15px;
-    font-weight:300;
+    font-weight:100;
     font-size:40;
     color:rgb(240,240,240);
     background-color: rgb(30,110,70);
 }
-.account-column{
-    width:200px;
+.account-column{width:200px;}
+.amount-column{width:200px;}
+.date-column{width:125px;}
+
+input[type="date"]{
+    font-size:13;
+}html>body>#main_table>:first-child>.date-column>input{
+    display:inline;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-weight:200;
 }
-.amount-column{
-    width:200px;
-}
-.date-column{
-    width:125px;
-}
-html>body>#main_table>.row>.date-column{
-    font-size:15;
-    color:transparent;
-}html>body>#main_table>:first-child>.date-column{
-    color:rgb(30,110,70);
-}
+
 hr{
     width:525;
     text-align:left;
@@ -40,25 +46,77 @@ td{
 table,hr{
     padding:0;
     border-collapse: collapse;
-    font-size:20;
+    font-size:19;
     font-weight:100;
     margin-left:20px;
 }
+#main_table{
+    border-style:solid;
+    border-width:1px;
+    border-color:rgb(200, 200, 200);
+}
 
-html>body>#main_table>.row:nth-child(2n){
+
+html>body>#main_table>.row:nth-child(2n){ /*ALTERNATE colors*/
     background-color:rgb(205,225,210);
 }
-input{
-    color:rgb(100,100,100);
-    border:none;
-    background-color:transparent;
-    border-bottom-style:solid;
-    border-bottom-width:1px;
-}
+
+
+/*INPUT STUFF*/
+    input{
+        font-weight:400;
+        color:rgb(100,100,100);
+        border:none;
+        background-color:transparent;
+        border-color:rgb(150,150,150);
+        border-bottom-style:solid;
+        border-bottom-width:1px;
+    }
+    input[type="number"]{
+        width:200px;
+        max-width:200px;
+        text-align:right;
+    }.debit-input{
+        padding-right:50%;
+    }.credit-input{
+        padding-right:10%;
+    }#main_table input:hover{
+        border-width:1px;
+        border-color:rgb(30,110,70);
+    }
+
+    #table_header{
+        font-weight:400;
+    }
+    #table_header>tbody>tr>.amount-column>#header-debit{
+        padding-left:25%;
+    }#table_header>tbody>tr>.amount-column>#header-credit{
+        padding-left:10%;
+    }
+
+/*FOOTER STUFF*/
+    #table_footer{
+        margin-top:10px;
+    }
+    #note-label{
+        text-align:right;
+        font-size:15px;
+    }
+    #totals{
+        font-size:15;
+        text-align:right;
+    }
+    #total-credit, #total-debit{
+        text-align: right;
+        width:85px;
+        font-size:15px;
+    }
 
 
 /*CONTEXT MENU STUFF*/
 #context-menu{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight:200;
     position: absolute; /*absolute position what ever u set it to*/
     font-size:15;
     background-color:rgb(240,240,240);
@@ -68,10 +126,10 @@ input{
     border-width:1px;
     padding-top:5px;
     padding-bottom:5px;
-}
-.context-menu-element td{
+}.context-menu-element td{
     padding:3;
-}
-.context-menu-element:hover{
+    display:block;
+}.context-menu-element:hover{
     background-color:rgb(220, 220, 220);
+
 }

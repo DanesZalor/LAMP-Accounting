@@ -20,9 +20,42 @@ var totals_label = [document.getElementById("total-debit"),document.getElementBy
     }
     document.onclick = function(e){
         contextMenu.style.display = "none";
+        CalculateTotals();
+    }
+    
+    function Validate(){//Checks if the entry is valid for submission
+        var errormsg = "ERROR(s):\n";
+        //check the validity of the note
+        var note = document.getElementById("note-input").children[0].value;
+        var hasnote = (note!="" && note.length>4);
+        if(!hasnote) errormsg += "- Note must contain something \n";
+
+        var balanced = CalculateTotals();
+        if(!balanced) errormsg += "- Debit and Credit must be equal\n"
+
+        var validrows = true;   //THIS SECTION CHECKS the validity of the table
+        var numofrowocc = 0;    //table is valid if atleast 2 rows are occupied and they are non 0s
+        for(var i=0; i<maintable.children.length; i++){
+            var acc = maintable.children[i].children[1].children[0].value;
+            var amm = maintable.children[i].children[2].children[0].value;
+            var row_occ = (acc!="" && amm!="" && Number(amm)>0);
+            if( !(row_occ || (acc==""&&amm=="")) ){
+                validrows = false;
+                break;
+            }
+
+            if(row_occ) numofrowocc += 1;
+        }
+        if(!validrows) errormsg += "- Some entries are blank\n"; 
+        if(numofrowocc<2) errormsg += "- Must have atleast 2 accounts\n";
+        validrows = validrows && (numofrowocc>=2);
+        
+        var noerror = hasnote && validrows && balanced;
+        if(!noerror) alert(errormsg); 
+        return  noerror && confirm('Are you sure?');
     }
 
-    function CalculateTotals(){
+    function CalculateTotals(){ //Calculates the totals and change the total label accordingly
         var debit_sum = 0;
         var credit_sum = 0;
         for(var i = 0; i<maintable.children.length; i++){
@@ -34,6 +67,15 @@ var totals_label = [document.getElementById("total-debit"),document.getElementBy
 
         totals_label[0].innerHTML = debit_sum.toString(10);
         totals_label[1].innerHTML = credit_sum.toString(10);
+        if(debit_sum!=credit_sum){
+            totals_label[0].style.color = '#FF0000';
+            totals_label[1].style.color = '#FF0000';
+            return false;
+        }else{
+            totals_label[0].style.color = '#1e6e46';
+            totals_label[1].style.color = '#1e6e46';
+            return true;
+        }
         
     }
     
@@ -47,6 +89,7 @@ var totals_label = [document.getElementById("total-debit"),document.getElementBy
         var acc = document.createElement("td");
         acc.className = "account-column";
         var acinp = document.createElement("input");
+        acinp.name = "acc[]";
         acinp.type = "text";
         acc.appendChild(acinp);
 
@@ -54,10 +97,9 @@ var totals_label = [document.getElementById("total-debit"),document.getElementBy
         amc.className = "amount-column";
         var aminp = document.createElement("input");
         aminp.className = "debit-input";
+        aminp.name = "amm[]";
         aminp.oninput = function(e){ /* EVENT HANDLER - when inputted something into the textbox */
-            var amnt = parseFloat(aminp.value);
-            if(amnt<0) aminp.className = "credit-input";
-            else aminp.className = "debit-input";
+            CalculateTotals();
         }
         aminp.onkeydown = function(e){
             console.log(e.key);
@@ -68,7 +110,7 @@ var totals_label = [document.getElementById("total-debit"),document.getElementBy
                 else aminp.className="debit-input";
                 e.preventDefault();
                 CalculateTotals();
-            }else if(isNaN(e.key) && e.key!="Backspace") e.preventDefault();
+            }else if(isNaN(e.key) && e.key!="Backspace" && !e.key.startsWith("Arrow")) e.preventDefault();
         }
         aminp.type = "number";
         amc.appendChild(aminp); 

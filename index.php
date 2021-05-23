@@ -16,20 +16,24 @@
         </table>
         <hr align="left">
         <!-- Main table for input here -->
-        <table id="main_table">
-            <!--Dynamic Elements here-->
-        </table> 
-        <table id="table_footer">
-            <tr>
-                <td class="date-column" id="note-label">Note:</td>
-                <td class="account-column" id="note-input"><input type="text"></td>
-                <td class="amount-column" id="totals">
-                    <table><tr>
-                        <td id="total-debit">0</td><td id="total-credit">0</td>
-                    </tr></table>
-                </td>
-            </tr>
-        </table>
+        <form action="submit.php" method="POST" onsubmit="return Validate()">
+            <table id="main_table">
+                <!--Dynamic Elements here-->
+            </table>
+            
+            <table id="table_footer">
+                <tr>
+                    <td class="date-column" id="note-label">Note:</td>
+                    <td class="account-column" id="note-input"><input type="text"></td>
+                    <td class="amount-column" id="totals">
+                        <table><tr>
+                            <td id="total-debit">0</td><td id="total-credit">0</td>
+                        </tr></table>
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="Submit Entry">
+        </form> 
 
         <!--CONTEXT MENU doesnt show up until u rightclicks-->
         <div id="context-menu" style="display:none">
